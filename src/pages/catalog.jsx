@@ -1,11 +1,11 @@
 import React from 'react';
-import Input from '../components/ui/input';
-import MapIcon from '../assets/icons/map.svg';
+import Sidebar from '../components/catalog/sidebar';
 
 export default function Catalog() {
   return (
-    <div className="container">
-      <Input placeholder="City" icon={MapIcon} label="Location" />
+    <div className="container flex pt-12">
+      <Sidebar />
+      <div></div>
     </div>
   );
 }
