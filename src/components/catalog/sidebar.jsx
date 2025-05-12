@@ -3,8 +3,7 @@ import { useSearchParams } from 'react-router';
 import Input from '../ui/input';
 import Filter from './filter';
 import Button from '../ui/button';
-
-import MapIcon from '../../assets/icons/map.svg';
+import Map from '../ui/icons/map';
 
 import WindIcon from '../../assets/icons/wind.svg';
 import DiagramIcon from '../../assets/icons/diagram.svg';
@@ -50,7 +49,11 @@ export default function Sidebar() {
 
   return (
     <div>
-      <Input placeholder="City, Country" icon={MapIcon} label="Location" />
+      <Input
+        placeholder="City, Country"
+        icon={<Map active className="group" />}
+        label="Location"
+      />
       <p className="pt-10">Filters</p>
       <div className="flex flex-col gap-8 pt-8">
         <Filter

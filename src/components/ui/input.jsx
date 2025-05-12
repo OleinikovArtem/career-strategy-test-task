@@ -1,15 +1,12 @@
 import React from 'react';
 import { cn } from '../../lib/utils';
-import clsx from 'clsx';
 
-export default function Input({ label, icon, className, ...props }) {
+export default function Input({ label, icon = null, className, ...props }) {
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex flex-col gap-2 group">
       {label ? <label className="text-dark-tertiary">{label}</label> : null}
-      <div className="flex bg-almost-white rounded-lg px-5">
-        {icon ? (
-          <img src={icon} alt="icon" className={clsx(' mr-1')}></img>
-        ) : null}
+      <div className="flex bg-almost-white rounded-lg px-5 items-center gap-2">
+        {icon}
         <input className={cn('py-4  outline-0', className)} {...props} />
       </div>
     </div>
