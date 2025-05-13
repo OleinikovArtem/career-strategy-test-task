@@ -1,6 +1,8 @@
 import Card from './card';
 import Button from '../ui/button';
 
+import { mapCategoriesByProduct } from '../../lib/product';
+
 import { useCatalog } from '../../hooks/useCatalog';
 
 export default function ProductList() {
@@ -27,7 +29,7 @@ export default function ProductList() {
   }
 
   return (
-    <ul className="flex flex-col flex-1 gap-8">
+    <ul className="flex flex-col flex-1 gap-8 items-center pb-13">
       {items.map((product) => (
         <Card
           key={product.id}
@@ -36,11 +38,12 @@ export default function ProductList() {
           title={product.name}
           id={product.id}
           description={product.description}
+          categories={mapCategoriesByProduct(product)}
         />
       ))}
       {totalItems > items.length ? (
-        <Button variant="primary" onClick={showMoreItems}>
-          Show More
+        <Button variant="ghost" onClick={showMoreItems}>
+          Load more
         </Button>
       ) : null}
     </ul>

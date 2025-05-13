@@ -3,18 +3,26 @@ import Heart from '../ui/icons/heart';
 import Star from '../ui/icons/star';
 import Map from '../ui/icons/map';
 
+import BadgeList from '../ui/badge-list';
 import Button from '../ui/button';
 
 const TRUNCATE_LENGTH = 66;
 
-export default function Card({ img, title, price, id, description }) {
+export default function Card({
+  img,
+  title,
+  price,
+  id,
+  description,
+  categories,
+}) {
   return (
     <li className="p-6 border-gray-light border-1 rounded-2xl flex gap-6">
-      <div className="w-[292px] h-[320px] overflow-hidden rounded-2xl">
+      <div className="min-w-[292px] w-[292px] h-[320px] overflow-hidden rounded-2xl">
         <img src={img} className="object-cover h-full object-center" />
       </div>
 
-      <div className="flex flex-col gap-6">
+      <div className="flex flex-col gap-6 items-start">
         <header>
           <div className="flex justify-between items-center">
             <h2 className="font-semibold text-2xl">{title}</h2>
@@ -45,6 +53,17 @@ export default function Card({ img, title, price, id, description }) {
             ? description.slice(0, TRUNCATE_LENGTH).trim() + '...'
             : description}
         </p>
+
+        <BadgeList list={categories} />
+
+        <Button
+          variant="primary"
+          className="mt-auto"
+          asLink
+          to={`catalog/${id}`}
+        >
+          Show more
+        </Button>
       </div>
     </li>
   );
