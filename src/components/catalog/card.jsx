@@ -1,10 +1,8 @@
-// import HeartIcon from '../../assets/icons/heart.svg';
 import Heart from '../ui/icons/heart';
-import Star from '../ui/icons/star';
-import Map from '../ui/icons/map';
 
 import BadgeList from '../ui/badge-list';
 import Button from '../ui/button';
+import Meta from '../common/meta';
 
 const TRUNCATE_LENGTH = 66;
 
@@ -15,20 +13,24 @@ export default function Card({
   id,
   description,
   categories,
+  rating,
+  location,
+  reviewsTotal,
 }) {
   return (
-    <li className="p-6 border-gray-light border-1 rounded-2xl flex gap-6">
-      <div className="min-w-[292px] w-[292px] h-[320px] overflow-hidden rounded-2xl">
+    <li className="p-6 border-gray-light border-1 rounded-2xl flex gap-6 flex-col md:flex-row">
+      <div className="min-w-[292px] md:w-[292px] h-[320px] overflow-hidden rounded-2xl">
         <img src={img} className="object-cover h-full object-center" />
       </div>
 
       <div className="flex flex-col gap-6 items-start">
-        <header>
-          <div className="flex justify-between items-center">
+        <header className="w-full">
+          <div className="flex justify-between">
             <h2 className="font-semibold text-2xl">{title}</h2>
-            <div className="flex items-center gap-3">
+            <div className="flex gap-3 md:items-center">
               <span className="font-semibold text-2xl">€{price}</span>
               <Button
+                className="h-6"
                 variant="icon"
                 onClick={() => console.log('clicked heard', id)}
               >
@@ -37,14 +39,11 @@ export default function Card({
             </div>
           </div>
           <div className="flex gap-4 mt-2">
-            <div className="flex items-center gap-1">
-              <Star active />
-              4.4(2 Reviews)
-            </div>
-            <div className="flex items-center gap-1">
-              <Map active />
-              Kyiv, Ukraine
-            </div>
+            <Meta
+              rating={rating}
+              location={location}
+              reviewsTotal={reviewsTotal}
+            />
           </div>
         </header>
 
@@ -60,7 +59,7 @@ export default function Card({
           variant="primary"
           className="mt-auto"
           asLink
-          to={`catalog/${id}`}
+          to={`/catalog/${id}`}
         >
           Show more
         </Button>

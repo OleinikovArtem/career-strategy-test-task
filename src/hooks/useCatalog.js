@@ -2,7 +2,8 @@ import { useEffect, useState } from 'react';
 
 import { getCampers } from '../lib/api';
 
-export function useCatalog() {
+export function useCatalog({ filters }) {
+  const _filters = filters.filter(Boolean) || [];
   const [numberOfItems, setNumberOfItems] = useState(4);
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -21,10 +22,20 @@ export function useCatalog() {
     setNumberOfItems((prev) => prev + 4);
   };
 
-  const items = data.items?.slice(0, numberOfItems);
+  const filteredItems =
+    data.items?.filter((item) => {
+      if (_filters.length === 0) return true;
+
+      return _filters.every((filter) => {
+        const filterValue = item[filter];
+        return Boolean(filterValue);
+      });
+    }) || [];
+
+  const items = filteredItems.slice(0, numberOfItems);
 
   return {
-    totalItems: data.items?.length || 0,
+    totalItems: filteredItems?.length || 0,
     items,
     isLoading,
     showMoreItems,

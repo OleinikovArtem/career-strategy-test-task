@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useSearchParams } from 'react-router';
 
 import Input from '../ui/input';
@@ -13,6 +14,8 @@ import ShowerIcon from '../../assets/icons/ph_shower.svg';
 import VanIcon from '../../assets/icons/bi_grid-1x2.svg';
 import FullIcon from '../../assets/icons/bi_grid.svg';
 import AlcoveIcon from '../../assets/icons/bi_grid-3x3-gap.svg';
+
+import { FILTER_KEY } from '../../consts';
 
 const EQUIPMEBT_FILTERS = [
   { label: 'AC', icon: WindIcon, value: 'AC' },
@@ -30,21 +33,30 @@ const TYPE_FILTERS = [
 
 export default function Sidebar() {
   const [searchParams, setSearchParams] = useSearchParams();
-  const selected = searchParams.get('filter')?.split(',') || [];
+  const [filters, setFilters] = useState(
+    searchParams.get(FILTER_KEY)?.split(',') || [],
+  );
+
+  function searchByFilters() {
+    const newSearchParams = new URLSearchParams(searchParams.toString());
+    newSearchParams.delete(FILTER_KEY);
+
+    if (filters.length != 0) {
+      newSearchParams.append(FILTER_KEY, filters.join(','));
+    }
+
+    setSearchParams(newSearchParams);
+  }
 
   function toggleSelect(value) {
     let newFilters = [];
-    if (selected.includes(value)) {
-      newFilters = selected.filter((item) => item !== value);
+    if (filters.includes(value)) {
+      newFilters = filters.filter((item) => item !== value);
     } else {
-      newFilters = [...selected, value];
+      newFilters = [...filters, value];
     }
 
-    const newSearchParams = new URLSearchParams(searchParams.toString());
-    newSearchParams.delete('filter');
-    newSearchParams.append('filter', newFilters.join(','));
-
-    setSearchParams(newSearchParams);
+    setFilters(newFilters);
   }
 
   return (
@@ -55,21 +67,23 @@ export default function Sidebar() {
         label="Location"
       />
       <p className="pt-10">Filters</p>
-      <div className="flex flex-col gap-8 pt-8">
+      <div className="flex flex-col md:flex-row lg:flex-col gap-8 pt-8 md:justify-between">
         <Filter
           label="Vehicle equipment"
           list={EQUIPMEBT_FILTERS}
-          selected={selected}
+          selected={filters}
           toggleSelect={toggleSelect}
         />
         <Filter
           label="Vehicle type"
           list={TYPE_FILTERS}
-          selected={selected}
+          selected={filters}
           toggleSelect={toggleSelect}
         />
       </div>
-      <Button className="mt-10">Search</Button>
+      <Button className="mt-10" onClick={searchByFilters}>
+        Search
+      </Button>
     </div>
   );
 }

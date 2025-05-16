@@ -1,12 +1,19 @@
+import { useSearchParams } from 'react-router';
+
 import Card from './card';
 import Button from '../ui/button';
 
 import { mapCategoriesByProduct } from '../../lib/product';
 
 import { useCatalog } from '../../hooks/useCatalog';
+import { FILTER_KEY } from '../../consts';
 
 export default function ProductList() {
-  const { items, isLoading, totalItems, showMoreItems } = useCatalog();
+  const [searchParams] = useSearchParams();
+  const filters = searchParams.get(FILTER_KEY)?.split(',') || [];
+  const { items, isLoading, totalItems, showMoreItems } = useCatalog({
+    filters,
+  });
 
   if (isLoading) {
     return (
@@ -39,6 +46,9 @@ export default function ProductList() {
           id={product.id}
           description={product.description}
           categories={mapCategoriesByProduct(product)}
+          rating={product.rating}
+          location={product.location}
+          reviewsTotal={product.reviews.length}
         />
       ))}
       {totalItems > items.length ? (

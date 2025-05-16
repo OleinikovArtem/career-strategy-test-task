@@ -5,6 +5,7 @@ import { Routes, Route } from 'react-router-dom';
 
 import HomePage from './pages/home';
 import CatalogPage from './pages/catalog';
+import CamperPage from './pages/camper';
 
 import Header from './components/header';
 
@@ -16,6 +17,7 @@ function App() {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/catalog" element={<CatalogPage />} />
+          <Route path="/catalog/:id" element={<CamperPage />} />
 
           <Route
             path="*"

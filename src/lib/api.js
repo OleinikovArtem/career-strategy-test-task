@@ -11,3 +11,13 @@ export const getCampers = async () => {
     throw error;
   }
 };
+
+export const getCamperById = async (id) => {
+  try {
+    const response = await axios.get(BASE_URL + `/${id}`);
+    return response.data;
+  } catch (error) {
+    console.error(`Error fetching camper with id: ${id} |`, error);
+    throw error;
+  }
+};
