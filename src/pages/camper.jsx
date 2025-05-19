@@ -5,6 +5,7 @@ import CamperHeader from '../components/camper/header';
 import Gallery from '../components/camper/gallery';
 import Features from '../components/camper/features';
 import Reviews from '../components/camper/reviews';
+import BookForm from '../components/camper/book-form';
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../components/ui/tab';
 
@@ -63,19 +64,22 @@ export default function CamperPage() {
           <TabsTrigger value="reviews">Reviews</TabsTrigger>
         </TabsList>
 
-        <div className="flex flex-col gap-10 md:flex-row justify-between pt-11">
-          <TabsContent value="features">
-            <Features
-              categories={mapCategoriesByProduct(data)}
-              characteristics={characteristics}
-            />
-          </TabsContent>
+        <div className="flex flex-col gap-10 lg:flex-row justify-between pt-11">
+          <div className="w-full lg:w-1/2">
+            <TabsContent value="features">
+              <Features
+                categories={mapCategoriesByProduct(data)}
+                characteristics={characteristics}
+              />
+            </TabsContent>
 
-          <TabsContent value="reviews">
-            <Reviews list={data.reviews} />
-          </TabsContent>
-
-          <div className="">FORM </div>
+            <TabsContent value="reviews">
+              <Reviews list={data.reviews} />
+            </TabsContent>
+          </div>
+          <div className="w-full lg:w-1/2">
+            <BookForm />
+          </div>
         </div>
       </Tabs>
     </main>

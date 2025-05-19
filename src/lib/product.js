@@ -20,14 +20,30 @@ const ICONS = {
   water: WaterIcon,
 };
 
-// TODO: Update this function to create a correct list of categories with right oreder
+const target_categories = [
+  'AC',
+  'bathroom',
+  'kitchen',
+  'TV',
+  'radio',
+  'refrigerator',
+  'microwave',
+  'gas',
+  'water',
+];
+
 export function mapCategoriesByProduct(product) {
   if (!product) return [];
 
-  // Just dummy list of categories - SHOULD BE UPDATED
-  return Object.entries(product)
-    .filter(([, value]) => typeof value === 'boolean' && value)
-    .map(([key]) => ({ label: key, icon: ICONS[key.toLowerCase()] || null }));
+  return target_categories.reduce((acc, category) => {
+    if (product[category]) {
+      acc.push({
+        label: category,
+        icon: ICONS[category.toLowerCase()] || null,
+      });
+    }
+    return acc;
+  }, []);
 }
 
 const FAVORITES = 'favorites';
