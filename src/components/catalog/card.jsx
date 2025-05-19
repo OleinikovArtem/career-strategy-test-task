@@ -16,6 +16,8 @@ export default function Card({
   rating,
   location,
   reviewsTotal,
+  toggleFavorite,
+  isFavorite,
 }) {
   return (
     <li className="p-6 border-gray-light border-1 rounded-2xl flex gap-6 flex-col md:flex-row">
@@ -32,9 +34,9 @@ export default function Card({
               <Button
                 className="h-6"
                 variant="icon"
-                onClick={() => console.log('clicked heard', id)}
+                onClick={() => toggleFavorite(id)}
               >
-                <Heart hover />
+                <Heart hover isActive={isFavorite} />
               </Button>
             </div>
           </div>

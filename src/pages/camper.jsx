@@ -3,12 +3,16 @@ import useCamperById from '../hooks/useCamperById';
 
 import CamperHeader from '../components/camper/header';
 import Gallery from '../components/camper/gallery';
+import Features from '../components/camper/features';
+import Reviews from '../components/camper/reviews';
+
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '../components/ui/tab';
+
+import { mapCategoriesByProduct } from '../lib/product';
 
 export default function CamperPage() {
   const { id } = useParams();
   const { error, isLoading, data } = useCamperById(id);
-
-  console.log('CamperPage', id, data);
 
   if (error) {
     return (
@@ -30,8 +34,17 @@ export default function CamperPage() {
     );
   }
 
+  const characteristics = {
+    form: data.form,
+    length: data.length,
+    width: data.width,
+    height: data.height,
+    tank: data.tank,
+    consumption: data.consumption,
+  };
+
   return (
-    <main className="container pt-12">
+    <main className="container pt-12 pb-20">
       <CamperHeader
         title={data.name}
         meta={{
@@ -43,6 +56,28 @@ export default function CamperPage() {
       />
       <Gallery list={data.gallery} />
       <p className="text-dark-secondary mt-7">{data.description}</p>
+
+      <Tabs defaultValue="features" className="mt-15">
+        <TabsList className="flex gap-10 justify-start border-b border-gray-light">
+          <TabsTrigger value="features">Features</TabsTrigger>
+          <TabsTrigger value="reviews">Reviews</TabsTrigger>
+        </TabsList>
+
+        <div className="flex flex-col gap-10 md:flex-row justify-between pt-11">
+          <TabsContent value="features">
+            <Features
+              categories={mapCategoriesByProduct(data)}
+              characteristics={characteristics}
+            />
+          </TabsContent>
+
+          <TabsContent value="reviews">
+            <Reviews list={data.reviews} />
+          </TabsContent>
+
+          <div className="">FORM </div>
+        </div>
+      </Tabs>
     </main>
   );
 }

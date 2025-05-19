@@ -29,3 +29,25 @@ export function mapCategoriesByProduct(product) {
     .filter(([, value]) => typeof value === 'boolean' && value)
     .map(([key]) => ({ label: key, icon: ICONS[key.toLowerCase()] || null }));
 }
+
+const FAVORITES = 'favorites';
+
+export function getFavorites() {
+  return JSON.parse(localStorage.getItem(FAVORITES)) || [];
+}
+
+export function addOrRemoveFavoritProductById(id) {
+  const favorites = getFavorites();
+  if (!favorites.includes(id)) {
+    favorites.push(id);
+    localStorage.setItem(FAVORITES, JSON.stringify(favorites));
+    return getFavorites();
+  }
+
+  if (favorites.includes(id)) {
+    const newFavorites = favorites.filter((favorite) => favorite !== id);
+    localStorage.setItem(FAVORITES, JSON.stringify(newFavorites));
+  }
+
+  return getFavorites();
+}

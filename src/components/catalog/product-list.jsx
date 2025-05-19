@@ -1,9 +1,14 @@
+import { useState } from 'react';
 import { useSearchParams } from 'react-router';
 
 import Card from './card';
 import Button from '../ui/button';
 
-import { mapCategoriesByProduct } from '../../lib/product';
+import {
+  mapCategoriesByProduct,
+  addOrRemoveFavoritProductById,
+  getFavorites,
+} from '../../lib/product';
 
 import { useCatalog } from '../../hooks/useCatalog';
 import { FILTER_KEY } from '../../consts';
@@ -14,6 +19,12 @@ export default function ProductList() {
   const { items, isLoading, totalItems, showMoreItems } = useCatalog({
     filters,
   });
+  const [favorites, setFavorites] = useState(getFavorites());
+
+  const toggleFavorite = (id) => {
+    const favorites = addOrRemoveFavoritProductById(id);
+    setFavorites(favorites);
+  };
 
   if (isLoading) {
     return (
@@ -49,6 +60,8 @@ export default function ProductList() {
           rating={product.rating}
           location={product.location}
           reviewsTotal={product.reviews.length}
+          toggleFavorite={toggleFavorite}
+          isFavorite={favorites.includes(product.id)}
         />
       ))}
       {totalItems > items.length ? (
