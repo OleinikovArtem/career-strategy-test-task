@@ -2,6 +2,8 @@ import Heart from '../ui/icons/heart';
 
 import BadgeList from '../ui/badge-list';
 import Button from '../ui/button';
+import Price from '../ui/price';
+
 import Meta from '../common/meta';
 
 const TRUNCATE_LENGTH = 66;
@@ -30,39 +32,24 @@ export default function Card({
           <div className="flex justify-between">
             <h2 className="font-semibold text-2xl">{title}</h2>
             <div className="flex gap-3 md:items-center">
-              <span className="font-semibold text-2xl">€{price}</span>
-              <Button
-                className="h-6"
-                variant="icon"
-                onClick={() => toggleFavorite(id)}
-              >
+              <Price value={price} />
+              <Button className="h-6" variant="icon" onClick={() => toggleFavorite(id)}>
                 <Heart hover isActive={isFavorite} />
               </Button>
             </div>
           </div>
           <div className="flex gap-4 mt-2">
-            <Meta
-              rating={rating}
-              location={location}
-              reviewsTotal={reviewsTotal}
-            />
+            <Meta rating={rating} location={location} reviewsTotal={reviewsTotal} />
           </div>
         </header>
 
         <p className="text-dark-secondary">
-          {description.length > TRUNCATE_LENGTH
-            ? description.slice(0, TRUNCATE_LENGTH).trim() + '...'
-            : description}
+          {description.length > TRUNCATE_LENGTH ? description.slice(0, TRUNCATE_LENGTH).trim() + '...' : description}
         </p>
 
         <BadgeList list={categories} />
 
-        <Button
-          variant="primary"
-          className="mt-auto"
-          asLink
-          to={`/catalog/${id}`}
-        >
+        <Button variant="primary" className="mt-auto" asLink to={`/catalog/${id}`}>
           Show more
         </Button>
       </div>

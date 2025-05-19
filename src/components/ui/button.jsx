@@ -1,15 +1,7 @@
-import React from 'react';
 import { cn } from '../../lib/utils';
 import { NavLink } from 'react-router-dom';
 
-export default function Button({
-  variant = 'primary',
-  asLink = false,
-  to,
-  children,
-  className,
-  ...props
-}) {
+export default function Button({ variant = 'primary', asLink = false, to, children, className, ...props }) {
   const variants = {
     primary:
       'bg-red-primary hover:bg-red-secondary text-white font-medium text-base py-4 px-14 rounded-full hover:cursor-pointer',
@@ -20,11 +12,7 @@ export default function Button({
 
   if (asLink) {
     return (
-      <NavLink
-        to={to}
-        className={cn(variants[variant], 'block', className)}
-        {...props}
-      >
+      <NavLink to={to} className={cn(variants[variant], 'block', className)} {...props}>
         {children}
       </NavLink>
     );

@@ -1,7 +1,8 @@
-import { store } from './redux/store';
 import { Provider } from 'react-redux';
-
 import { Routes, Route } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
+
+import { store } from './redux/store';
 
 import HomePage from './pages/home';
 import CatalogPage from './pages/catalog';
@@ -19,11 +20,9 @@ function App() {
           <Route path="/catalog" element={<CatalogPage />} />
           <Route path="/catalog/:id" element={<CamperPage />} />
 
-          <Route
-            path="*"
-            element={() => <h1 className="text-5xl">NOT FOUND</h1>}
-          />
+          <Route path="*" element={() => <h1 className="text-5xl">NOT FOUND</h1>} />
         </Routes>
+        <ToastContainer />
       </Provider>
     </div>
   );

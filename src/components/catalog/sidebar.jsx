@@ -7,17 +7,16 @@ import Map from '../ui/icons/map';
 
 import { FILTER_KEYS } from '../../consts';
 
-export default function Sidebar({
-  filters,
-  toggleFilter,
-  applyFiltersToSearchParams,
-}) {
+export default function Sidebar({ filters, setFilter, applyFiltersToSearchParams }) {
   return (
     <div>
       <Input
         placeholder="City, Country"
         icon={<Map active className="group" />}
         label="Location"
+        value={filters[FILTER_KEYS.location]}
+        onChange={(e) => setFilter(FILTER_KEYS.location, e.target.value)}
+        name={FILTER_KEYS.location}
       />
       <p className="pt-10">Filters</p>
       <div className="flex flex-col md:flex-row lg:flex-col gap-8 pt-8 md:justify-between">
@@ -25,7 +24,7 @@ export default function Sidebar({
           label="Vehicle equipment"
           list={EQUIPMENT_FILTERS}
           selected={filters[FILTER_KEYS.equipment]}
-          onChange={(value) => toggleFilter(FILTER_KEYS.equipment, value)}
+          onChange={(value) => setFilter(FILTER_KEYS.equipment, value)}
           type="checkbox"
           name={FILTER_KEYS.equipment}
         />
@@ -33,7 +32,7 @@ export default function Sidebar({
           label="Vehicle type"
           list={TYPE_FILTERS}
           selected={filters[FILTER_KEYS.type]}
-          onChange={(value) => toggleFilter(FILTER_KEYS.type, value)}
+          onChange={(value) => setFilter(FILTER_KEYS.type, value)}
           type="radio"
           name={FILTER_KEYS.type}
         />

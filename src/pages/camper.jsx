@@ -1,4 +1,6 @@
 import { useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
+
 import useCamperById from '../hooks/useCamperById';
 
 import CamperHeader from '../components/camper/header';
@@ -44,6 +46,16 @@ export default function CamperPage() {
     consumption: data.consumption,
   };
 
+  const handleBook = (event) => {
+    event.preventDefault();
+    const formData = new FormData(event.target);
+    const data = Object.fromEntries(formData.entries());
+    console.log('Booking data:', data);
+    toast.success('Booking successful!');
+
+    event.target.reset();
+  };
+
   return (
     <main className="container pt-12 pb-20">
       <CamperHeader
@@ -67,10 +79,7 @@ export default function CamperPage() {
         <div className="flex flex-col gap-10 lg:flex-row justify-between pt-11">
           <div className="w-full lg:w-1/2">
             <TabsContent value="features">
-              <Features
-                categories={mapCategoriesByProduct(data)}
-                characteristics={characteristics}
-              />
+              <Features categories={mapCategoriesByProduct(data)} characteristics={characteristics} />
             </TabsContent>
 
             <TabsContent value="reviews">
@@ -78,7 +87,7 @@ export default function CamperPage() {
             </TabsContent>
           </div>
           <div className="w-full lg:w-1/2">
-            <BookForm />
+            <BookForm onSubmit={handleBook} />
           </div>
         </div>
       </Tabs>

@@ -42,7 +42,7 @@ export default function useFilters() {
   const [activeFilter, setActiveFilter] = useState(initialFilters);
   const [filters, setFilters] = useState(initialFilters);
 
-  function toggleFilter(key, value) {
+  function setFilter(key, value) {
     setFilters((prev) => ({ ...prev, [key]: value }));
   }
 
@@ -52,7 +52,7 @@ export default function useFilters() {
     for (const key in filters) {
       newSearchParams.delete(key);
       if (filters[key]?.length != 0) {
-        newSearchParams.append(key, filters[key].join(','));
+        newSearchParams.append(key, Array.isArray(filters[key]) ? filters[key].join(',') : filters[key]);
       }
 
       setActiveFilter((prev) => ({
@@ -67,7 +67,7 @@ export default function useFilters() {
   return {
     filters,
     activeFilter,
-    toggleFilter,
+    setFilter,
     applyFiltersToSearchParams,
   };
 }

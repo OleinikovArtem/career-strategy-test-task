@@ -28,18 +28,14 @@ export function useCatalog({ filters }) {
         const equipment = filters.equipment || [];
         const type = filters.type || [];
 
-        const isEquipmentMatch =
-          equipment.length === 0 || equipment.every((eq) => item[eq]);
+        const isEquipmentMatch = equipment.length === 0 || equipment.every((eq) => item[eq]);
 
-        const loc = filters.location[0]?.trim() || '';
+        const loc = filters.location[0]?.trim().toLowerCase() || '';
+        const itemLocation = item.location.toLowerCase();
 
-        const isLocationMatch =
-          loc.length === 0 ||
-          loc.includes(item.location) ||
-          item.location.includes(loc);
+        const isLocationMatch = loc.length === 0 || loc.includes(itemLocation) || itemLocation.includes(loc);
 
-        const isTypeMatch =
-          type.length === 0 || item.form === toCamelCase(type[0]);
+        const isTypeMatch = type.length === 0 || item.form === toCamelCase(type[0]);
 
         return isEquipmentMatch && isTypeMatch && isLocationMatch;
       }) || [],

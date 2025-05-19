@@ -3,11 +3,7 @@ import { useState } from 'react';
 import Card from './card';
 import Button from '../ui/button';
 
-import {
-  mapCategoriesByProduct,
-  addOrRemoveFavoritProductById,
-  getFavorites,
-} from '../../lib/product';
+import { mapCategoriesByProduct, addOrRemoveFavoritProductById, getFavorites } from '../../lib/product';
 
 import { useCatalog } from '../../hooks/useCatalog';
 

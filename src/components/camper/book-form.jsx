@@ -10,20 +10,13 @@ export default function BookForm({ onSubmit }) {
     >
       <header className="flex flex-col gap-2">
         <h3 className="font-semibold text-xl">Book your campervan now</h3>
-        <p className="text-dark-tertiary">
-          Stay connected! We are always ready to help you.
-        </p>
+        <p className="text-dark-tertiary">Stay connected! We are always ready to help you.</p>
       </header>
 
       <div className="flex flex-col gap-[14px]">
         <Input name="name" type="text" placeholder="Name*" required />
         <Input name="email" type="email" placeholder="Email*" required />
-        <Input
-          name="booking-date"
-          type="text"
-          placeholder="Booking date*"
-          required
-        />
+        <Input name="booking-date" type="text" placeholder="Booking date*" required />
         <Textarea name="comment" placeholder="Comment" rows={3} />
       </div>
 

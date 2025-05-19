@@ -1,5 +1,3 @@
-'use client';
-
 import { forwardRef } from 'react';
 import * as TabsPrimitive from '@radix-ui/react-tabs';
 
@@ -13,10 +11,7 @@ const TabsList = forwardRef((props, ref) => {
   return (
     <TabsPrimitive.List
       ref={ref}
-      className={cn(
-        'inline-flex items-center justify-center bg-muted text-muted-foreground',
-        className,
-      )}
+      className={cn('inline-flex items-center justify-center bg-muted text-muted-foreground', className)}
       {...rest}
     />
   );

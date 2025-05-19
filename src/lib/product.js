@@ -20,17 +20,7 @@ const ICONS = {
   water: WaterIcon,
 };
 
-const target_categories = [
-  'AC',
-  'bathroom',
-  'kitchen',
-  'TV',
-  'radio',
-  'refrigerator',
-  'microwave',
-  'gas',
-  'water',
-];
+const target_categories = ['AC', 'bathroom', 'kitchen', 'TV', 'radio', 'refrigerator', 'microwave', 'gas', 'water'];
 
 export function mapCategoriesByProduct(product) {
   if (!product) return [];

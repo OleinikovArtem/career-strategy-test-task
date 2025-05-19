@@ -1,4 +1,5 @@
 import Meta from '../common/meta';
+import Price from '../ui/price';
 
 export default function CamperHeader({ title, meta, price }) {
   return (
@@ -9,7 +10,7 @@ export default function CamperHeader({ title, meta, price }) {
       <div className="flex gap-4 mt-2">
         <Meta {...meta} />
       </div>
-      <div className="font-semibold text-2xl mt-4">€{price}</div>
+      <Price value={price} className="mt-4" />
     </header>
   );
 }
