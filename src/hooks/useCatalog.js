@@ -1,9 +1,9 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 
 import { getCampers } from '../lib/api';
+import { toCamelCase } from '../lib/utils';
 
 export function useCatalog({ filters }) {
-  const _filters = filters.filter(Boolean) || [];
   const [numberOfItems, setNumberOfItems] = useState(4);
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -22,15 +22,29 @@ export function useCatalog({ filters }) {
     setNumberOfItems((prev) => prev + 4);
   };
 
-  const filteredItems =
-    data.items?.filter((item) => {
-      if (_filters.length === 0) return true;
+  const filteredItems = useMemo(
+    () =>
+      data.items?.filter((item) => {
+        const equipment = filters.equipment || [];
+        const type = filters.type || [];
 
-      return _filters.every((filter) => {
-        const filterValue = item[filter];
-        return Boolean(filterValue);
-      });
-    }) || [];
+        const isEquipmentMatch =
+          equipment.length === 0 || equipment.every((eq) => item[eq]);
+
+        const loc = filters.location[0]?.trim() || '';
+
+        const isLocationMatch =
+          loc.length === 0 ||
+          loc.includes(item.location) ||
+          item.location.includes(loc);
+
+        const isTypeMatch =
+          type.length === 0 || item.form === toCamelCase(type[0]);
+
+        return isEquipmentMatch && isTypeMatch && isLocationMatch;
+      }) || [],
+    [filters, data.items],
+  );
 
   const items = filteredItems.slice(0, numberOfItems);
 

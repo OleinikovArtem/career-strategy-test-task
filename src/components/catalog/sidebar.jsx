@@ -1,7 +1,4 @@
-import useFilters, {
-  EQUIPMENT_FILTERS,
-  TYPE_FILTERS,
-} from '../../hooks/useFilters';
+import { EQUIPMENT_FILTERS, TYPE_FILTERS } from '../../hooks/useFilters';
 
 import Input from '../ui/input';
 import Filter from './filter';
@@ -10,9 +7,11 @@ import Map from '../ui/icons/map';
 
 import { FILTER_KEYS } from '../../consts';
 
-export default function Sidebar() {
-  const { filters, toggleFilter, applyFiltersToSearchParams } = useFilters();
-
+export default function Sidebar({
+  filters,
+  toggleFilter,
+  applyFiltersToSearchParams,
+}) {
   return (
     <div>
       <Input

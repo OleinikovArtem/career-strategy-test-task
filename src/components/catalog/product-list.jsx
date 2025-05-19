@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { useSearchParams } from 'react-router';
 
 import Card from './card';
 import Button from '../ui/button';
@@ -11,30 +10,12 @@ import {
 } from '../../lib/product';
 
 import { useCatalog } from '../../hooks/useCatalog';
-import { FILTER_KEYS } from '../../consts';
 
-const getFilterValue = (searchParams, key) => {
-  const value = searchParams.get(key);
-  if (!value) {
-    return [];
-  }
-  return value.split(',');
-};
-
-export default function ProductList() {
-  const [searchParams] = useSearchParams();
-  const filters = {
-    [FILTER_KEYS.equipment]: getFilterValue(
-      searchParams,
-      FILTER_KEYS.equipment,
-    ),
-    [FILTER_KEYS.type]: getFilterValue(searchParams, FILTER_KEYS.type),
-    [FILTER_KEYS.location]: getFilterValue(searchParams, FILTER_KEYS.location),
-  };
-
+export default function ProductList({ filters }) {
   const { items, isLoading, totalItems, showMoreItems } = useCatalog({
-    filters: filters[FILTER_KEYS.equipment],
+    filters,
   });
+
   const [favorites, setFavorites] = useState(getFavorites());
 
   const toggleFavorite = (id) => {

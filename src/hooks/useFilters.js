@@ -21,21 +21,26 @@ export const EQUIPMENT_FILTERS = [
 ];
 
 export const TYPE_FILTERS = [
-  { label: 'Van', icon: VanIcon, value: 'van' },
+  { label: 'Van', icon: VanIcon, value: 'panel_truck' },
   { label: 'Fully Integrated', icon: FullIcon, value: 'fully_integrated' },
   { label: 'Alcove', icon: AlcoveIcon, value: 'alcove' },
 ];
 
+function getFilter(searchParams, key) {
+  return searchParams.get(key)?.split(',') || [];
+}
+
 export default function useFilters() {
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const [filters, setFilters] = useState({
-    [FILTER_KEYS.equipment]:
-      searchParams.get(FILTER_KEYS.equipment)?.split(',') || [],
-    [FILTER_KEYS.type]: searchParams.get(FILTER_KEYS.type)?.split(',') || [],
-    [FILTER_KEYS.location]:
-      searchParams.get(FILTER_KEYS.location)?.split(',') || [],
-  });
+  const initialFilters = {
+    [FILTER_KEYS.equipment]: getFilter(searchParams, FILTER_KEYS.equipment),
+    [FILTER_KEYS.type]: getFilter(searchParams, FILTER_KEYS.type),
+    [FILTER_KEYS.location]: getFilter(searchParams, FILTER_KEYS.location),
+  };
+
+  const [activeFilter, setActiveFilter] = useState(initialFilters);
+  const [filters, setFilters] = useState(initialFilters);
 
   function toggleFilter(key, value) {
     setFilters((prev) => ({ ...prev, [key]: value }));
@@ -49,6 +54,11 @@ export default function useFilters() {
       if (filters[key]?.length != 0) {
         newSearchParams.append(key, filters[key].join(','));
       }
+
+      setActiveFilter((prev) => ({
+        ...prev,
+        [key]: filters[key],
+      }));
     }
 
     setSearchParams(newSearchParams);
@@ -56,6 +66,7 @@ export default function useFilters() {
 
   return {
     filters,
+    activeFilter,
     toggleFilter,
     applyFiltersToSearchParams,
   };
