@@ -11,13 +11,29 @@ import {
 } from '../../lib/product';
 
 import { useCatalog } from '../../hooks/useCatalog';
-import { FILTER_KEY } from '../../consts';
+import { FILTER_KEYS } from '../../consts';
+
+const getFilterValue = (searchParams, key) => {
+  const value = searchParams.get(key);
+  if (!value) {
+    return [];
+  }
+  return value.split(',');
+};
 
 export default function ProductList() {
   const [searchParams] = useSearchParams();
-  const filters = searchParams.get(FILTER_KEY)?.split(',') || [];
+  const filters = {
+    [FILTER_KEYS.equipment]: getFilterValue(
+      searchParams,
+      FILTER_KEYS.equipment,
+    ),
+    [FILTER_KEYS.type]: getFilterValue(searchParams, FILTER_KEYS.type),
+    [FILTER_KEYS.location]: getFilterValue(searchParams, FILTER_KEYS.location),
+  };
+
   const { items, isLoading, totalItems, showMoreItems } = useCatalog({
-    filters,
+    filters: filters[FILTER_KEYS.equipment],
   });
   const [favorites, setFavorites] = useState(getFavorites());
 
