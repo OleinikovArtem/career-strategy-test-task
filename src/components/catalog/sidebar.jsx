@@ -7,7 +7,7 @@ import Map from '../ui/icons/map';
 
 import { FILTER_KEYS } from '../../consts';
 
-export default function Sidebar({ filters, setFilter, applyFiltersToSearchParams }) {
+export default function Sidebar({ filters, setFilter, applyFilters }) {
   return (
     <div>
       <Input
@@ -37,7 +37,7 @@ export default function Sidebar({ filters, setFilter, applyFiltersToSearchParams
           name={FILTER_KEYS.type}
         />
       </div>
-      <Button className="mt-10" onClick={applyFiltersToSearchParams}>
+      <Button className="mt-10" onClick={applyFilters}>
         Search
       </Button>
     </div>

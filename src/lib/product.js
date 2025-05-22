@@ -57,3 +57,12 @@ export function addOrRemoveFavoritProductById(id) {
 
   return getFavorites();
 }
+
+export function getFiltersFromUrl(keys) {
+  const searchParams = new URLSearchParams(window.location.search);
+  return keys.reduce((acc, key) => {
+    const value = searchParams.get(key);
+    acc[key] = value ? value.split(',') : [];
+    return acc;
+  }, {});
+}

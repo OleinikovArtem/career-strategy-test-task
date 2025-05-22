@@ -1,7 +1,8 @@
-import { useState } from 'react';
-import { useSearchParams } from 'react-router';
+import { useSearchParams } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 
-import { FILTER_KEYS } from '../consts';
+import { setFilter, applyFilters } from '../redux/catalog';
+import { filtersSelector, activefiltersSelector } from '../redux/selectors';
 
 import WindIcon from '../assets/icons/wind.svg';
 import DiagramIcon from '../assets/icons/diagram.svg';
@@ -26,48 +27,36 @@ export const TYPE_FILTERS = [
   { label: 'Alcove', icon: AlcoveIcon, value: 'alcove' },
 ];
 
-function getFilter(searchParams, key) {
-  return searchParams.get(key)?.split(',') || [];
-}
-
 export default function useFilters() {
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [, setSearchParams] = useSearchParams();
 
-  const initialFilters = {
-    [FILTER_KEYS.equipment]: getFilter(searchParams, FILTER_KEYS.equipment),
-    [FILTER_KEYS.type]: getFilter(searchParams, FILTER_KEYS.type),
-    [FILTER_KEYS.location]: getFilter(searchParams, FILTER_KEYS.location),
-  };
+  const dispatch = useDispatch();
+  const filters = useSelector(filtersSelector);
+  const activeFilter = useSelector(activefiltersSelector);
 
-  const [activeFilter, setActiveFilter] = useState(initialFilters);
-  const [filters, setFilters] = useState(initialFilters);
-
-  function setFilter(key, value) {
-    setFilters((prev) => ({ ...prev, [key]: value }));
+  function updateFilter(key, value) {
+    dispatch(setFilter({ key, value }));
   }
 
-  function applyFiltersToSearchParams() {
-    const newSearchParams = new URLSearchParams(searchParams.toString());
+  function activateFilters() {
+    const newSearchParams = new URLSearchParams();
 
-    for (const key in filters) {
-      newSearchParams.delete(key);
-      if (filters[key]?.length != 0) {
-        newSearchParams.append(key, Array.isArray(filters[key]) ? filters[key].join(',') : filters[key]);
-      }
+    const location = filters.location[0]?.trim().toLowerCase() || '';
+    const equipment = filters.equipment.join(',') || undefined;
+    const type = filters.type.join(',') || undefined;
 
-      setActiveFilter((prev) => ({
-        ...prev,
-        [key]: filters[key],
-      }));
-    }
+    if (location) newSearchParams.set('location', location);
+    if (equipment) newSearchParams.set('equipment', equipment);
+    if (type) newSearchParams.set('type', type);
 
     setSearchParams(newSearchParams);
+    dispatch(applyFilters());
   }
 
   return {
     filters,
     activeFilter,
-    setFilter,
-    applyFiltersToSearchParams,
+    setFilter: updateFilter,
+    applyFilters: activateFilters,
   };
 }

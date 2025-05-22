@@ -1,46 +1,25 @@
-import { useEffect, useState, useMemo } from 'react';
+import { useEffect, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 
-import { getCampers } from '../lib/api';
-import { toCamelCase } from '../lib/utils';
+import { filteredCampersSelector, isLoadingSelector } from '../redux/selectors';
+import { fetchCatalog } from '../redux/catalog';
 
-export function useCatalog({ filters }) {
-  const [numberOfItems, setNumberOfItems] = useState(4);
-  const [data, setData] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
+const ITEMS_PER_PAGE = 4;
+
+export function useCatalog() {
+  const [numberOfItems, setNumberOfItems] = useState(ITEMS_PER_PAGE);
+  const filteredItems = useSelector(filteredCampersSelector);
+  const isLoading = useSelector(isLoadingSelector);
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    async function fetchData() {
-      setIsLoading(true);
-      const data = await getCampers();
-      setData(data);
-      setIsLoading(false);
-    }
-    fetchData();
+    dispatch(fetchCatalog());
   }, []);
 
   const showMoreItems = () => {
-    setNumberOfItems((prev) => prev + 4);
+    setNumberOfItems((prev) => prev + ITEMS_PER_PAGE);
   };
-
-  const filteredItems = useMemo(
-    () =>
-      data.items?.filter((item) => {
-        const equipment = filters.equipment || [];
-        const type = filters.type || [];
-
-        const isEquipmentMatch = equipment.length === 0 || equipment.every((eq) => item[eq]);
-
-        const loc = filters.location[0]?.trim().toLowerCase() || '';
-        const itemLocation = item.location.toLowerCase();
-
-        const isLocationMatch = loc.length === 0 || loc.includes(itemLocation) || itemLocation.includes(loc);
-
-        const isTypeMatch = type.length === 0 || item.form === toCamelCase(type[0]);
-
-        return isEquipmentMatch && isTypeMatch && isLocationMatch;
-      }) || [],
-    [filters, data.items],
-  );
 
   const items = filteredItems.slice(0, numberOfItems);
 

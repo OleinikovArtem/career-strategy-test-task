@@ -1,11 +1,8 @@
 import { configureStore } from '@reduxjs/toolkit';
-
-const initialState = {};
-
-const rootReducer = (state = initialState, action) => {
-  return state;
-};
+import catalogReducer from './catalog';
 
 export const store = configureStore({
-  reducer: rootReducer,
+  reducer: {
+    catalog: catalogReducer,
+  },
 });
