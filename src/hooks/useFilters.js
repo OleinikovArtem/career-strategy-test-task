@@ -1,7 +1,7 @@
 import { useSearchParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { setFilter, applyFilters } from '../redux/filter';
+import { setFilter, applyFilters, resetFilters } from '../redux/filter';
 import { filtersSelector, activeFiltersSelector } from '../redux/selectors';
 
 import WindIcon from '../assets/icons/wind.svg';
@@ -52,11 +52,16 @@ export default function useFilters() {
     setSearchParams(newSearchParams);
     dispatch(applyFilters());
   }
-
+  
+  function reset() {
+    dispatch(resetFilters())
+  }
+  
   return {
     filters,
     activeFilter,
     setFilter: updateFilter,
     applyFilters: activateFilters,
+    resetFilters: reset,
   };
 }
