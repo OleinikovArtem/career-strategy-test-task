@@ -6,10 +6,13 @@ import Button from '../ui/button';
 import { mapCategoriesByProduct, addOrRemoveFavoritProductById, getFavorites } from '../../lib/product';
 
 import { useCatalog } from '../../hooks/useCatalog';
+import useFilters from '../../hooks/useFilters.js';
 
-export default function ProductList({ filters }) {
+export default function ProductList() {
+  const { activeFilter } = useFilters();
+  
   const { items, isLoading, totalItems, showMoreItems } = useCatalog({
-    filters,
+    filters: activeFilter,
   });
 
   const [favorites, setFavorites] = useState(getFavorites());

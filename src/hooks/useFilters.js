@@ -1,8 +1,8 @@
 import { useSearchParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { setFilter, applyFilters } from '../redux/catalog';
-import { filtersSelector, activefiltersSelector } from '../redux/selectors';
+import { setFilter, applyFilters } from '../redux/filter';
+import { filtersSelector, activeFiltersSelector } from '../redux/selectors';
 
 import WindIcon from '../assets/icons/wind.svg';
 import DiagramIcon from '../assets/icons/diagram.svg';
@@ -32,7 +32,7 @@ export default function useFilters() {
 
   const dispatch = useDispatch();
   const filters = useSelector(filtersSelector);
-  const activeFilter = useSelector(activefiltersSelector);
+  const activeFilter = useSelector(activeFiltersSelector);
 
   function updateFilter(key, value) {
     dispatch(setFilter({ key, value }));

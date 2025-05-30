@@ -2,11 +2,11 @@ import { createSelector } from 'reselect';
 import { toCamelCase } from '../lib/utils';
 
 export const campersSelector = (state) => state.catalog.list;
-export const filtersSelector = (state) => state.catalog.filters;
-export const activefiltersSelector = (state) => state.catalog.activeFilter;
+export const filtersSelector = (state) => state.filter.filters;
+export const activeFiltersSelector = (state) => state.filter.activeFilter;
 export const isLoadingSelector = (state) => state.catalog.isLoading;
 
-export const filteredCampersSelector = createSelector([campersSelector, activefiltersSelector], (list, filters) => {
+export const filteredCampersSelector = createSelector([campersSelector, activeFiltersSelector], (list, filters) => {
   const equipment = filters.equipment || [];
   const type = filters.type || [];
 

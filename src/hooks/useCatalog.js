@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { filteredCampersSelector, isLoadingSelector } from '../redux/selectors';
-import { fetchCatalog } from '../redux/catalog';
+import { fetchCatalog } from '../redux/catalogOps';
 
 const ITEMS_PER_PAGE = 4;
 
